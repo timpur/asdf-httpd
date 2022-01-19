@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+make_flags="-j$ASDF_CONCURRENCY"
+
+echo "Extracting source code..."
+
+file_path="${ASDF_DOWNLOAD_PATH}/httpd-src.tar.gz"
+tar -zxf "${file_path}" -C "${ASDF_DOWNLOAD_PATH}" || exit 1
+
+src_path="${ASDF_DOWNLOAD_PATH}/httpd-${ASDF_INSTALL_VERSION}"
+if [[ ! -d "${src_path}" ]]; then
+    echo "Failed to find extracted src files"
+fi
+
+echo "Building source code..."
+(
+    cd "${src_path}"
+    CC="gcc" CFLAGS="-O2" ./configure --prefix=${ASDF_INSTALL_PATH} --enable-modules=all --enable-mods-shared=all
+    make "$make_flags"
+)
+
+echo "Installing bin..."
+(
+    cd "${src_path}"
+    make "$make_flags" install
+)

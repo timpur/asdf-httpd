@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+versions=$(
+    curl -s "https://archive.apache.org/dist/httpd/" |
+        perl -n -e '/href="(httpd-([0-9.]*).tar.gz)"/ && print "$2\n"' |
+        sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n |
+        tr "\n" " "
+)
+
+echo "$versions"

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+echo "Downloading source code..."
+
+file_path="${ASDF_DOWNLOAD_PATH}/httpd-src.tar.gz"
+if [[ ! -f "${file_path}" ]]; then
+    curl https://archive.apache.org/dist/httpd/httpd-${ASDF_INSTALL_VERSION}.tar.gz --output "${file_path}"
+fi
