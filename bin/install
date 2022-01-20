@@ -17,7 +17,7 @@ fi
 echo "Building source code..."
 (
     cd "${src_path}"
-    CC="gcc" CFLAGS="-O2" ./configure --prefix=${ASDF_INSTALL_PATH} --enable-modules=all --enable-mods-shared=all
+    CC="gcc" CFLAGS="-O2" ./configure --prefix=${ASDF_INSTALL_PATH} --enable-modules=all --enable-mods-shared=all $HTTPD_CONFIGURE_OPTIONS
     make "$make_flags"
 )
 
